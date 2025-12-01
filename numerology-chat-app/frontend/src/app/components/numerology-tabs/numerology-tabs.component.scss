@@ -1,0 +1,806 @@
+.numerology-tabs-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.tab-navigation {
+  display: flex;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 15px 20px 0;
+  gap: 5px;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+  }
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 12px 12px 0 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  &.active {
+    background: white;
+    color: #333;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .tab-icon {
+    font-size: 1.1rem;
+  }
+
+  .tab-name {
+    font-weight: 600;
+  }
+}
+
+.tab-content {
+  flex: 1;
+  background: white;
+  overflow-y: auto;
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+
+    &:hover {
+      background: #a1a1a1;
+    }
+  }
+}
+
+.tab-panel {
+  padding: 30px;
+  min-height: 100%;
+}
+
+.panel-header {
+  margin-bottom: 30px;
+  text-align: center;
+
+  h2 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  p {
+    color: #666;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+// Summary Panel Styles
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.summary-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 15px;
+  padding: 25px;
+  color: white;
+  
+  h3 {
+    margin: 0 0 20px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+}
+
+.numbers-grid {
+  display: grid;
+  gap: 15px;
+}
+
+.number-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 15px;
+  backdrop-filter: blur(5px);
+  
+  .number-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .number-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .number-value {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 1.2rem;
+
+      &.master {
+        background: linear-gradient(45deg, #FFD700, #FFA500);
+        color: #333;
+        box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+      }
+    }
+  }
+
+  .number-interpretation {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    opacity: 0.9;
+  }
+}
+
+.personal-year-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+
+  .year-number {
+    font-size: 3rem;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .year-info {
+    flex: 1;
+
+    .year-label {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .year-meaning {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+  }
+}
+
+.master-numbers-list {
+  margin-bottom: 15px;
+}
+
+.master-number-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+
+  .master-name {
+    font-weight: 600;
+  }
+
+  .master-value {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    color: #333;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-weight: bold;
+  }
+}
+
+.master-description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.lucky-numbers-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.lucky-number {
+  background: linear-gradient(45deg, #28a745, #20c997);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.lucky-description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  opacity: 0.9;
+  margin: 0;
+}
+
+// Detailed Numbers Styles
+.numbers-detailed {
+  display: grid;
+  gap: 25px;
+}
+
+.number-detail-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+
+  .number-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+
+    h3 {
+      margin: 0;
+      color: #333;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .number-badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 1.3rem;
+      position: relative;
+
+      &.master {
+        background: linear-gradient(45deg, #FFD700, #FFA500);
+        color: #333;
+      }
+
+      .master-label {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ff4757;
+        color: white;
+        font-size: 0.6rem;
+        padding: 2px 6px;
+        border-radius: 8px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .number-detail-content {
+    .interpretation {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    .calculation-info {
+      background: #f8f9fa;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border-left: 4px solid #667eea;
+
+      strong {
+        color: #333;
+        margin-right: 8px;
+      }
+
+      code {
+        background: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        color: #e74c3c;
+        border: 1px solid #ddd;
+      }
+    }
+
+    .additional-info {
+      margin-bottom: 10px;
+      color: #666;
+
+      strong {
+        color: #333;
+        margin-right: 8px;
+      }
+
+      .frequency-display {
+        margin-top: 5px;
+
+        .freq-item {
+          display: inline-block;
+          background: #e9ecef;
+          padding: 3px 8px;
+          margin: 2px;
+          border-radius: 12px;
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+}
+
+// Cycles Panel Styles
+.cycles-content {
+  display: grid;
+  gap: 30px;
+}
+
+.cycle-section {
+  h3 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+}
+
+.personal-year-detailed {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 25px;
+
+  .year-display {
+    text-align: center;
+
+    .year-number-large {
+      display: block;
+      font-size: 4rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    .year-text {
+      font-size: 1.2rem;
+      color: #666;
+      font-weight: 600;
+    }
+  }
+
+  .year-meaning-detailed {
+    flex: 1;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #444;
+  }
+}
+
+.pinnacles-grid,
+.challenges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.pinnacle-item,
+.challenge-item {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+
+  h4 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+}
+
+.pinnacle-number,
+.challenge-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+}
+
+.pinnacle-period {
+  color: #666;
+  font-weight: 500;
+}
+
+.challenge-meaning {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #555;
+  margin-top: 10px;
+}
+
+// Spiritual Panel Styles
+.spiritual-content {
+  display: grid;
+  gap: 30px;
+}
+
+.spiritual-section {
+  h3 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+}
+
+.karmic-lessons-card {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+}
+
+.no-karmic-lessons {
+  text-align: center;
+  
+  .celebration-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+  }
+
+  h4 {
+    color: #28a745;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 1.1rem;
+  }
+}
+
+.karmic-lessons-present {
+  h4 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+  }
+
+  h5 {
+    color: #555;
+    margin: 20px 0 10px 0;
+    font-size: 1rem;
+  }
+}
+
+.number-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.missing-number-tag {
+  background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-weight: bold;
+}
+
+.present-number-tag {
+  background: linear-gradient(45deg, #51cf66, #40c057);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-weight: bold;
+}
+
+.master-numbers-detailed {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+
+  .master-intro {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+
+  .master-list {
+    display: grid;
+    gap: 15px;
+  }
+
+  .master-item {
+    border-left: 4px solid #FFD700;
+    padding: 15px;
+    background: #fffbf0;
+    border-radius: 8px;
+
+    .master-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+
+      .master-name {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .master-number {
+        background: linear-gradient(45deg, #FFD700, #FFA500);
+        color: #333;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-weight: bold;
+      }
+    }
+
+    .master-meaning {
+      color: #555;
+      line-height: 1.5;
+    }
+  }
+}
+
+// Timing Panel Styles
+.timing-content {
+  display: grid;
+  gap: 30px;
+}
+
+.timing-section {
+  h3 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+}
+
+.personal-year-timing {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  .year-overview {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    .year-number-display {
+      font-size: 5rem;
+      font-weight: bold;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      line-height: 1;
+    }
+
+    .year-theme {
+      flex: 1;
+
+      h4 {
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 1.3rem;
+      }
+
+      p {
+        color: #666;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.timing-lucky-numbers {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  .lucky-display {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .timing-lucky-number {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+  }
+
+  .timing-description {
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+// No Results State
+.no-results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border-radius: 15px;
+  color: white;
+  text-align: center;
+  padding: 40px;
+
+  .no-results-content {
+    max-width: 400px;
+
+    .no-results-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      opacity: 0.9;
+      margin: 0;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .tab-navigation {
+    padding: 10px 15px 0;
+  }
+
+  .tab-button {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+
+    .tab-name {
+      display: none;
+    }
+  }
+
+  .tab-panel {
+    padding: 20px 15px;
+  }
+
+  .panel-header {
+    margin-bottom: 20px;
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .personal-year-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .pinnacles-grid,
+  .challenges-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .year-overview {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pinnacles-grid,
+  .challenges-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .year-number-display {
+    font-size: 4rem !important;
+  }
+}

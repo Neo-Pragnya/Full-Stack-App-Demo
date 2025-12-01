@@ -1,0 +1,87 @@
+<div class="app-container" [class.loading]="isLoading">
+  <!-- Loading Screen -->
+  <div *ngIf="isLoading" class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-spinner">🔮</div>
+      <h2>Initializing Numerology Chat</h2>
+      <p>Connecting to the cosmic energies...</p>
+    </div>
+  </div>
+
+  <!-- Main Application -->
+  <div *ngIf="!isLoading" class="main-app">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-content">
+        <div class="logo-section">
+          <h1>🔮 Numerology Chat</h1>
+          <p>Discover your life's blueprint through numbers</p>
+        </div>
+        <div class="header-info">
+          <div class="session-badge">
+            <span class="session-label">Session:</span>
+            <span class="session-id">{{ sessionId.substring(0, 8) }}...</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <div class="app-grid">
+        <!-- Chat Section -->
+        <section class="chat-section">
+          <div class="section-header">
+            <h2>💬 Chat Assistant</h2>
+            <p>Start your numerology journey with our interactive chat</p>
+          </div>
+          <div class="chat-container">
+            <app-chat></app-chat>
+          </div>
+        </section>
+
+        <!-- Numerology Tabs Section -->
+        <section class="tabs-section">
+          <div class="section-header">
+            <h2>📊 Your Numerology Profile</h2>
+            <p>Explore your numbers and their meanings</p>
+          </div>
+          <div class="tabs-container">
+            <app-numerology-tabs></app-numerology-tabs>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>About Numerology</h4>
+          <p>Numerology is the study of the mystical relationship between numbers and life events. This application uses the Pythagorean system to provide insights into your personality, life path, and spiritual journey.</p>
+        </div>
+        <div class="footer-section">
+          <h4>How to Use</h4>
+          <ul>
+            <li>Chat with our assistant to get your numerology profile</li>
+            <li>Provide your full name and birth date</li>
+            <li>Explore different tabs to learn about your numbers</li>
+            <li>Use thumbs up/down to provide feedback</li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Features</h4>
+          <ul>
+            <li>Interactive chat interface</li>
+            <li>Comprehensive numerology calculations</li>
+            <li>Event tracking and analytics</li>
+            <li>Responsive design</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Numerology Chat App. Built with Angular & FastAPI.</p>
+      </div>
+    </footer>
+  </div>
+</div>
