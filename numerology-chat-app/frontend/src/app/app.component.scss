@@ -1,0 +1,359 @@
+// Global styles and app layout
+.app-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+// Loading Screen
+.loading-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-align: center;
+
+  .loading-content {
+    max-width: 400px;
+
+    .loading-spinner {
+      font-size: 4rem;
+      animation: rotate 2s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Main App Layout
+.main-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+// Header Styles
+.app-header {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 20px 0;
+  color: white;
+
+  .header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .logo-section {
+      h1 {
+        margin: 0 0 5px 0;
+        font-size: 2.5rem;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      p {
+        margin: 0;
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
+    }
+
+    .header-info {
+      .session-badge {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+
+        .session-label {
+          opacity: 0.8;
+          margin-right: 8px;
+        }
+
+        .session-id {
+          font-family: 'Courier New', monospace;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+// Main Content
+.app-main {
+  flex: 1;
+  padding: 30px 0;
+
+  .app-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    min-height: calc(100vh - 200px);
+  }
+
+  .chat-section,
+  .tabs-section {
+    display: flex;
+    flex-direction: column;
+
+    .section-header {
+      margin-bottom: 20px;
+      color: white;
+      text-align: center;
+
+      h2 {
+        margin: 0 0 8px 0;
+        font-size: 1.8rem;
+        font-weight: 600;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      p {
+        margin: 0;
+        font-size: 1rem;
+        opacity: 0.9;
+      }
+    }
+
+    .chat-container,
+    .tabs-container {
+      flex: 1;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      background: white;
+    }
+  }
+}
+
+// Footer Styles
+.app-footer {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 40px 0 20px;
+
+  .footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+
+    .footer-section {
+      h4 {
+        margin: 0 0 15px 0;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #FFD700;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.6;
+        opacity: 0.9;
+        font-size: 0.95rem;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          margin-bottom: 8px;
+          padding-left: 15px;
+          position: relative;
+          line-height: 1.5;
+          opacity: 0.9;
+          font-size: 0.95rem;
+
+          &::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+          }
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    max-width: 1400px;
+    margin: 30px auto 0;
+    padding: 20px 20px 0;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+
+    p {
+      margin: 0;
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .app-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .chat-section {
+    order: 1;
+  }
+
+  .tabs-section {
+    order: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    padding: 15px 0;
+
+    .header-content {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+
+      .logo-section h1 {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  .app-main {
+    padding: 20px 0;
+
+    .app-grid {
+      padding: 0 15px;
+      gap: 15px;
+      min-height: calc(100vh - 180px);
+    }
+
+    .section-header {
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .app-footer {
+    padding: 30px 0 15px;
+
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 0 15px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header .header-content .logo-section h1 {
+    font-size: 1.8rem;
+  }
+
+  .app-main {
+    .section-header h2 {
+      font-size: 1.3rem;
+    }
+
+    .app-grid {
+      min-height: calc(100vh - 160px);
+    }
+  }
+
+  .loading-screen .loading-content {
+    .loading-spinner {
+      font-size: 3rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .app-container {
+    border: 2px solid white;
+  }
+
+  .session-badge,
+  .footer-section h4 {
+    background: white;
+    color: black;
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner {
+    animation: none;
+  }
+
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+// Print styles
+@media print {
+  .app-header,
+  .app-footer,
+  .chat-section {
+    display: none;
+  }
+
+  .app-main {
+    padding: 0;
+  }
+
+  .app-grid {
+    grid-template-columns: 1fr;
+    max-width: none;
+    margin: 0;
+  }
+}

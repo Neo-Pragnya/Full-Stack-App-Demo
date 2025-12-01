@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: numerology-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - LOG_LEVEL=info
+      - CORS_ORIGINS=http://localhost,http://localhost:4200,http://localhost:80
+    volumes:
+      - backend_logs:/app/logs
+      - backend_data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - numerology-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: numerology-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - numerology-network
+
+  # Optional: Database service for persistent storage
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: numerology-db
+  #   environment:
+  #     POSTGRES_DB: numerology
+  #     POSTGRES_USER: numerology_user
+  #     POSTGRES_PASSWORD: secure_password
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U numerology_user -d numerology"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #   restart: unless-stopped
+  #   networks:
+  #     - numerology-network
+
+volumes:
+  backend_logs:
+    driver: local
+  backend_data:
+    driver: local
+  # postgres_data:
+  #   driver: local
+
+networks:
+  numerology-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

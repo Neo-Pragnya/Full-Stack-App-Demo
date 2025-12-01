@@ -1,0 +1,96 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <div class="header-content">
+      <h2>🔮 Numerology Chat Assistant</h2>
+      <div class="header-actions">
+        <button class="btn btn-secondary btn-sm" (click)="clearChat()" title="Clear chat">
+          🗑️ Clear
+        </button>
+        <button class="btn btn-secondary btn-sm" (click)="exportChat()" title="Export chat">
+          📁 Export
+        </button>
+      </div>
+    </div>
+    <div class="session-info">
+      <small class="text-muted">Session: {{ sessionId.substring(0, 8) }}...</small>
+    </div>
+  </div>
+
+  <div class="chat-messages" #chatContainer>
+    <div *ngFor="let message of messages" class="message-container">
+      <div [ngClass]="getMessageClasses(message)">
+        <div class="message-content">
+          <div class="message-text" [innerHTML]="message.message | safeHtml"></div>
+          <div class="message-timestamp">
+            {{ formatTimestamp(message.timestamp) }}
+          </div>
+        </div>
+        
+        <!-- Feedback buttons for bot messages -->
+        <div *ngIf="message.sender === 'bot'" class="message-feedback">
+          <button 
+            class="feedback-btn thumbs-up" 
+            (click)="submitFeedback(message, 'up')"
+            title="Helpful response"
+          >
+            👍
+          </button>
+          <button 
+            class="feedback-btn thumbs-down" 
+            (click)="submitFeedback(message, 'down')"
+            title="Not helpful"
+          >
+            👎
+          </button>
+        </div>
+      </div>
+
+      <!-- Suggestions for bot messages -->
+      <div *ngIf="message.suggestions && message.suggestions.length > 0" class="suggestions-container">
+        <div class="suggestions-label">Quick responses:</div>
+        <div class="suggestions">
+          <button 
+            *ngFor="let suggestion of message.suggestions" 
+            class="suggestion-btn"
+            (click)="useSuggestion(suggestion)"
+          >
+            {{ suggestion }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div *ngIf="isLoading" class="message-container">
+      <div class="message-bubble bot-message loading">
+        <div class="typing-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-input">
+    <div class="input-container">
+      <textarea 
+        #messageInput
+        [(ngModel)]="currentMessage" 
+        (keypress)="onKeyPress($event)"
+        placeholder="Type your message here... (Press Enter to send)"
+        rows="1"
+        class="form-control"
+        [disabled]="isLoading"
+      ></textarea>
+      <button 
+        class="btn btn-primary send-btn" 
+        (click)="sendMessage()" 
+        [disabled]="!currentMessage.trim() || isLoading"
+        title="Send message"
+      >
+        📤
+      </button>
+    </div>
+  </div>
+</div>

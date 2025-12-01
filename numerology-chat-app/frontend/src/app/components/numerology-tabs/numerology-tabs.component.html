@@ -1,0 +1,364 @@
+<div class="numerology-tabs-container" *ngIf="results">
+  <!-- Tab Navigation -->
+  <div class="tab-navigation">
+    <button 
+      *ngFor="let tab of tabs"
+      [class.active]="activeTab === tab.id"
+      class="tab-button"
+      (click)="selectTab(tab.id)"
+    >
+      <span class="tab-icon">{{ tab.icon }}</span>
+      <span class="tab-name">{{ tab.name }}</span>
+    </button>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    
+    <!-- Summary Tab -->
+    <div *ngIf="activeTab === 'summary'" class="tab-panel summary-panel">
+      <div class="panel-header">
+        <h2>🌟 Your Numerology Profile Summary</h2>
+        <p>Here's an overview of your key numerology numbers and their meanings.</p>
+      </div>
+
+      <div class="summary-grid">
+        <!-- Core Numbers Overview -->
+        <div class="summary-section core-overview">
+          <h3>🎯 Core Numbers</h3>
+          <div class="numbers-grid">
+            <div *ngFor="let item of getCoreNumbers() | keyvalue" class="number-card">
+              <div class="number-header">
+                <span class="number-name">{{ item.key }}</span>
+                <span class="number-value" [class.master]="isNumberMaster(item.value)">
+                  {{ formatNumber(item.value.number) }}
+                </span>
+              </div>
+              <div class="number-interpretation">
+                {{ item.value.interpretation }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Personal Year -->
+        <div class="summary-section personal-year">
+          <h3>📅 Your Current Personal Year</h3>
+          <div class="personal-year-card">
+            <div class="year-number">{{ results.personal_year.number }}</div>
+            <div class="year-info">
+              <div class="year-label">Personal Year {{ results.personal_year.year }}</div>
+              <div class="year-meaning">
+                {{ numerologyService.getPersonalYearMeaning(results.personal_year.number) }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Master Numbers -->
+        <div *ngIf="getMasterNumbers().length > 0" class="summary-section master-numbers">
+          <h3>🔮 Master Numbers</h3>
+          <div class="master-numbers-list">
+            <div *ngFor="let master of getMasterNumbers()" class="master-number-item">
+              <span class="master-name">{{ master.name }}</span>
+              <span class="master-value">{{ master.number }}</span>
+            </div>
+          </div>
+          <p class="master-description">
+            You have master numbers in your chart, indicating heightened spiritual potential and special life purpose.
+          </p>
+        </div>
+
+        <!-- Lucky Numbers -->
+        <div class="summary-section lucky-numbers">
+          <h3>🍀 Your Lucky Numbers</h3>
+          <div class="lucky-numbers-grid">
+            <div *ngFor="let number of results.lucky_numbers" class="lucky-number">
+              {{ number }}
+            </div>
+          </div>
+          <p class="lucky-description">
+            {{ numerologyService.getLuckyNumbersDescription(results.lucky_numbers) }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Numbers Tab -->
+    <div *ngIf="activeTab === 'core'" class="tab-panel core-panel">
+      <div class="panel-header">
+        <h2>🎯 Core Numerology Numbers</h2>
+        <p>Your fundamental numbers that shape your personality and life path.</p>
+      </div>
+
+      <div class="numbers-detailed">
+        <div *ngFor="let item of getCoreNumbers() | keyvalue" class="number-detail-card">
+          <div class="number-detail-header">
+            <h3>{{ item.key }} Number</h3>
+            <div class="number-badge" [class.master]="isNumberMaster(item.value)">
+              {{ formatNumber(item.value.number) }}
+              <span *ngIf="isNumberMaster(item.value)" class="master-label">MASTER</span>
+            </div>
+          </div>
+          
+          <div class="number-detail-content">
+            <div class="interpretation">
+              {{ item.value.interpretation }}
+            </div>
+            
+            <div class="calculation-info" *ngIf="item.value.calculation">
+              <strong>Calculation:</strong>
+              <code>{{ item.value.calculation }}</code>
+            </div>
+
+            <div *ngIf="item.value.vowels_used" class="additional-info">
+              <strong>Vowels used:</strong> {{ item.value.vowels_used.join(', ') }}
+            </div>
+
+            <div *ngIf="item.value.consonants_used" class="additional-info">
+              <strong>Consonants used:</strong> {{ item.value.consonants_used.join(', ') }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Advanced Numbers Tab -->
+    <div *ngIf="activeTab === 'advanced'" class="tab-panel advanced-panel">
+      <div class="panel-header">
+        <h2>🔬 Advanced Numbers</h2>
+        <p>Deeper insights into your numerology profile and hidden aspects.</p>
+      </div>
+
+      <div class="numbers-detailed">
+        <div *ngFor="let item of getAdvancedNumbers() | keyvalue" class="number-detail-card">
+          <div class="number-detail-header">
+            <h3>{{ item.key }} Number</h3>
+            <div class="number-badge" [class.master]="isNumberMaster(item.value)">
+              {{ formatNumber(item.value.number) }}
+            </div>
+          </div>
+          
+          <div class="number-detail-content">
+            <div class="interpretation" *ngIf="item.value.interpretation">
+              {{ item.value.interpretation }}
+            </div>
+            
+            <div class="calculation-info" *ngIf="item.value.calculation">
+              <strong>Calculation:</strong>
+              <code>{{ item.value.calculation }}</code>
+            </div>
+
+            <div *ngIf="item.value.initials" class="additional-info">
+              <strong>From initials:</strong> {{ item.value.initials }}
+            </div>
+
+            <div *ngIf="item.value.frequency_map" class="additional-info">
+              <strong>Letter frequency:</strong>
+              <div class="frequency-display">
+                <span *ngFor="let freq of item.value.frequency_map | keyvalue" class="freq-item">
+                  {{ freq.key }}: {{ freq.value }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Life Cycles Tab -->
+    <div *ngIf="activeTab === 'cycles'" class="tab-panel cycles-panel">
+      <div class="panel-header">
+        <h2>🔄 Life Cycles & Challenges</h2>
+        <p>Understanding your life phases, challenges, and opportunities for growth.</p>
+      </div>
+
+      <div class="cycles-content">
+        <!-- Personal Year -->
+        <div class="cycle-section">
+          <h3>📅 Current Personal Year</h3>
+          <div class="personal-year-detailed">
+            <div class="year-display">
+              <span class="year-number-large">{{ results.personal_year.number }}</span>
+              <span class="year-text">Year {{ results.personal_year.year }}</span>
+            </div>
+            <div class="year-meaning-detailed">
+              {{ numerologyService.getPersonalYearMeaning(results.personal_year.number) }}
+            </div>
+            <div class="calculation-info">
+              <strong>Calculation:</strong>
+              <code>{{ results.personal_year.calculation }}</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pinnacle Numbers -->
+        <div class="cycle-section">
+          <h3>🏔️ Pinnacle Numbers (Life Achievements)</h3>
+          <div class="pinnacles-grid">
+            <div class="pinnacle-item">
+              <h4>First Pinnacle</h4>
+              <div class="pinnacle-number">{{ results.pinnacle_numbers.first }}</div>
+              <div class="pinnacle-period">Ages 0-27</div>
+            </div>
+            <div class="pinnacle-item">
+              <h4>Second Pinnacle</h4>
+              <div class="pinnacle-number">{{ results.pinnacle_numbers.second }}</div>
+              <div class="pinnacle-period">Ages 28-36</div>
+            </div>
+            <div class="pinnacle-item">
+              <h4>Third Pinnacle</h4>
+              <div class="pinnacle-number">{{ results.pinnacle_numbers.third }}</div>
+              <div class="pinnacle-period">Ages 37-45</div>
+            </div>
+            <div class="pinnacle-item">
+              <h4>Fourth Pinnacle</h4>
+              <div class="pinnacle-number">{{ results.pinnacle_numbers.fourth }}</div>
+              <div class="pinnacle-period">Ages 46+</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Challenge Numbers -->
+        <div class="cycle-section">
+          <h3>⚡ Challenge Numbers (Life Lessons)</h3>
+          <div class="challenges-grid">
+            <div class="challenge-item">
+              <h4>First Challenge</h4>
+              <div class="challenge-number">{{ results.challenge_numbers.first }}</div>
+              <div class="challenge-meaning">{{ numerologyService.getChallengeMeaning(results.challenge_numbers.first) }}</div>
+            </div>
+            <div class="challenge-item">
+              <h4>Second Challenge</h4>
+              <div class="challenge-number">{{ results.challenge_numbers.second }}</div>
+              <div class="challenge-meaning">{{ numerologyService.getChallengeMeaning(results.challenge_numbers.second) }}</div>
+            </div>
+            <div class="challenge-item">
+              <h4>Third Challenge</h4>
+              <div class="challenge-number">{{ results.challenge_numbers.third }}</div>
+              <div class="challenge-meaning">{{ numerologyService.getChallengeMeaning(results.challenge_numbers.third) }}</div>
+            </div>
+            <div class="challenge-item">
+              <h4>Fourth Challenge</h4>
+              <div class="challenge-number">{{ results.challenge_numbers.fourth }}</div>
+              <div class="challenge-meaning">{{ numerologyService.getChallengeMeaning(results.challenge_numbers.fourth) }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spiritual Aspects Tab -->
+    <div *ngIf="activeTab === 'spiritual'" class="tab-panel spiritual-panel">
+      <div class="panel-header">
+        <h2>🕉️ Spiritual Aspects & Karmic Lessons</h2>
+        <p>Understanding your karmic lessons and spiritual development areas.</p>
+      </div>
+
+      <div class="spiritual-content">
+        <!-- Karmic Lessons -->
+        <div class="spiritual-section">
+          <h3>📚 Karmic Lessons</h3>
+          <div class="karmic-lessons-card">
+            <div *ngIf="results.karmic_lessons.missing_numbers.length === 0" class="no-karmic-lessons">
+              <div class="celebration-icon">🎉</div>
+              <h4>Congratulations!</h4>
+              <p>You have no karmic lessons, meaning all numbers 1-9 are represented in your name. This indicates a well-rounded soul with balanced life experiences.</p>
+            </div>
+            
+            <div *ngIf="results.karmic_lessons.missing_numbers.length > 0" class="karmic-lessons-present">
+              <h4>Areas for Development</h4>
+              <p>{{ numerologyService.getKarmicLessonsDescription(results.karmic_lessons.missing_numbers) }}</p>
+              
+              <div class="missing-numbers">
+                <h5>Missing Numbers:</h5>
+                <div class="number-tags">
+                  <span *ngFor="let number of results.karmic_lessons.missing_numbers" class="missing-number-tag">
+                    {{ number }}
+                  </span>
+                </div>
+              </div>
+              
+              <div class="present-numbers">
+                <h5>Present Numbers:</h5>
+                <div class="number-tags">
+                  <span *ngFor="let number of results.karmic_lessons.present_numbers" class="present-number-tag">
+                    {{ number }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Master Numbers Summary -->
+        <div *ngIf="getMasterNumbers().length > 0" class="spiritual-section">
+          <h3>🔮 Master Numbers in Your Chart</h3>
+          <div class="master-numbers-detailed">
+            <p class="master-intro">
+              Master numbers carry special spiritual significance and indicate heightened potential for spiritual development and service to humanity.
+            </p>
+            
+            <div class="master-list">
+              <div *ngFor="let master of getMasterNumbers()" class="master-item">
+                <div class="master-header">
+                  <span class="master-name">{{ master.name }}</span>
+                  <span class="master-number">{{ master.number }}</span>
+                </div>
+                <div class="master-meaning">{{ master.interpretation }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timing Tab -->
+    <div *ngIf="activeTab === 'timing'" class="tab-panel timing-panel">
+      <div class="panel-header">
+        <h2>⏰ Timing & Current Energies</h2>
+        <p>Understanding the current energetic influences and timing in your life.</p>
+      </div>
+
+      <div class="timing-content">
+        <!-- Current Personal Year Detail -->
+        <div class="timing-section">
+          <h3>📅 Personal Year {{ results.personal_year.year }}</h3>
+          <div class="personal-year-timing">
+            <div class="year-overview">
+              <div class="year-number-display">{{ results.personal_year.number }}</div>
+              <div class="year-theme">
+                <h4>Year Theme</h4>
+                <p>{{ numerologyService.getPersonalYearMeaning(results.personal_year.number) }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lucky Numbers for Timing -->
+        <div class="timing-section">
+          <h3>🍀 Favorable Numbers</h3>
+          <div class="timing-lucky-numbers">
+            <div class="lucky-display">
+              <div *ngFor="let number of results.lucky_numbers" class="timing-lucky-number">
+                {{ number }}
+              </div>
+            </div>
+            <p class="timing-description">
+              These numbers are particularly favorable for you. Consider them for important decisions, dates, or when you need extra support.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- No Results State -->
+<div *ngIf="!results" class="no-results">
+  <div class="no-results-content">
+    <div class="no-results-icon">🔮</div>
+    <h3>No Numerology Data Available</h3>
+    <p>Start a conversation with the chat assistant to calculate your numerology profile and see detailed insights here.</p>
+  </div>
+</div>
