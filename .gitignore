@@ -496,3 +496,8 @@ service-account.json
 # =============================================================================
 # END OF GITIGNORE
 # =============================================================================
+
+# Angular cache files (prevent large cache from being tracked)
+numerology-chat-app/frontend/.angular/
+*/.angular/cache/
+.angular/cache/
